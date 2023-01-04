@@ -12,6 +12,7 @@
     "expo": "~47.0.9",
     "expo-font": "~11.0.1",
     "expo-status-bar": "~1.4.2",
+    "intl": "^1.2.5",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@types/intl": "^1.2.0",
     "@types/react": "~18.0.14",
     "@types/react-native": "~0.70.6",
     "@types/styled-components": "^5.1.26",
