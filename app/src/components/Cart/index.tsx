@@ -23,9 +23,10 @@ import {
 interface CartPros {
   cartItems: cartItem[];
   onAdd: (product: Product) => void;
+  onDecrement: (product: Product) => void;
 }
 
-export function Cart({ cartItems, onAdd }: CartPros) {
+export function Cart({ cartItems, onAdd, onDecrement }: CartPros) {
   const total = cartItems.reduce((acc, cartItem) => {
     return acc + cartItem.quantity * cartItem.product.price;
   }, 0);
@@ -69,7 +70,7 @@ export function Cart({ cartItems, onAdd }: CartPros) {
                   <PlusCircle />
                 </TouchableOpacity>
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => onDecrement(cartItem.product)}>
                   <MinusCircle />
                 </TouchableOpacity>
               </Actions>
