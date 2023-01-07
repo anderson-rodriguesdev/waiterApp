@@ -29,6 +29,12 @@ export function Main() {
 
   function handleCancelOrder() {
     setSelectedTable("");
+    setCartItems([]);
+  }
+
+  function handleConfirmedOrder() {
+    setSelectedTable("");
+    setCartItems([]);
   }
 
   function handleAddToCart(product: Product) {
@@ -109,6 +115,7 @@ export function Main() {
               cartItems={cartItems}
               onAdd={handleAddToCart}
               onDecrement={handleDecrementCartItem}
+              onConfirmedOrder={handleConfirmedOrder}
             />
           )}
         </FooterContainer>
