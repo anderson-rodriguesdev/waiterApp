@@ -1,6 +1,7 @@
 import { FlatList, TouchableOpacity } from "react-native";
 
-import { CartITem } from "../../types/CartItem";
+import { cartItem } from "../../types/CartItem";
+import { Product } from "../../types/Product";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { Button } from "../Button";
 import { MinusCircle } from "../Icons/MinusCircle";
@@ -20,15 +21,20 @@ import {
 } from "./style";
 
 interface CartPros {
-  cartITems: CartITem[];
+  cartItems: cartItem[];
+  onAdd: (product: Product) => void;
 }
 
-export function Cart({ cartITems }: CartPros) {
+export function Cart({ cartItems, onAdd }: CartPros) {
+  const total = cartItems.reduce((acc, cartItem) => {
+    return acc + cartItem.quantity * cartItem.product.price;
+  }, 0);
+
   return (
     <>
-      {cartITems.length > 0 && (
+      {cartItems.length > 0 && (
         <FlatList
-          data={cartITems}
+          data={cartItems}
           keyExtractor={(cartItem) => cartItem.product._id}
           showsVerticalScrollIndicator={false}
           style={{ marginBottom: 20, maxHeight: 150 }}
@@ -56,7 +62,10 @@ export function Cart({ cartITems }: CartPros) {
                 </ProductDetails>
               </ProductContainer>
               <Actions>
-                <TouchableOpacity style={{ marginRight: 24 }}>
+                <TouchableOpacity
+                  style={{ marginRight: 24 }}
+                  onPress={() => onAdd(cartItem.product)}
+                >
                   <PlusCircle />
                 </TouchableOpacity>
 
@@ -71,11 +80,11 @@ export function Cart({ cartITems }: CartPros) {
 
       <Summary>
         <TotalContainer>
-          {cartITems.length > 0 ? (
+          {cartItems.length > 0 ? (
             <>
               <Text color="#666666">Total</Text>
               <Text size={20} weight="600">
-                {formatCurrency(120)}
+                {formatCurrency(total)}
               </Text>
             </>
           ) : (
@@ -84,7 +93,7 @@ export function Cart({ cartITems }: CartPros) {
         </TotalContainer>
         <Button
           onPress={() => alert("confirmar pedido")}
-          disabled={cartITems.length === 0}
+          disabled={cartItems.length === 0}
         >
           Confirmar Pedido
         </Button>

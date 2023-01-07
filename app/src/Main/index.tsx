@@ -15,13 +15,13 @@ import { Button } from "../components/Button";
 import { TableModal } from "../components/TableModal";
 import { Cart } from "../components/Cart";
 
-import { CartITem } from "../types/CartItem";
+import { cartItem } from "../types/CartItem";
 import { Product } from "../types/Product";
 
 export function Main() {
   const [isTableModalVisible, setIsTableModalVisivble] = useState(false);
   const [selectedTable, setSelectedTable] = useState("");
-  const [cartITems, setCartItems] = useState<CartITem[]>([]);
+  const [cartItems, setCartItems] = useState<cartItem[]>([]);
 
   function handleSaveTable(table: string) {
     setSelectedTable(table);
@@ -80,7 +80,9 @@ export function Main() {
             </Button>
           )}
 
-          {selectedTable && <Cart cartITems={cartITems} />}
+          {selectedTable && (
+            <Cart cartItems={cartItems} onAdd={handleAddToCart} />
+          )}
         </FooterContainer>
       </Footer>
 
