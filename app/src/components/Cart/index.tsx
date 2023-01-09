@@ -21,12 +21,14 @@ import {
   Summary,
   TotalContainer,
 } from "./style";
+import { api } from "../../utils/api";
 
 interface CartPros {
   cartItems: cartItem[];
   onAdd: (product: Product) => void;
   onDecrement: (product: Product) => void;
   onConfirmedOrder: () => void;
+  selectedTable: string;
 }
 
 export function Cart({
@@ -34,6 +36,7 @@ export function Cart({
   onAdd,
   onDecrement,
   onConfirmedOrder,
+  selectedTable,
 }: CartPros) {
   const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -42,7 +45,18 @@ export function Cart({
     return acc + cartItem.quantity * cartItem.product.price;
   }, 0);
 
-  function handleConfirmOrder() {
+  async function handleConfirmOrder() {
+    setIsLoading(true);
+    const payload = {
+      table: selectedTable,
+      products: cartItems.map((cartItem) => ({
+        product: cartItem.product._id,
+        quantity: cartItem.quantity,
+      })),
+    };
+
+    await api.post("/orders", payload);
+    setIsLoading(false);
     setIsModalVisible(true);
   }
 
